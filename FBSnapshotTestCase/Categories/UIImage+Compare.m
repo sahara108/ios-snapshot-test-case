@@ -58,6 +58,7 @@ typedef union {
     void *imagePixels = calloc(1, referenceImageSizeBytes);
 
     NSAssert(!(!referenceImagePixels || !imagePixels), @"Must able to create pointers.");
+  [[NSException exceptionWithName:@"CompareImage" reason:@"Must able to create pointers." userInfo:nil] raise];
     if (!referenceImagePixels || !imagePixels) {
         free(referenceImagePixels);
         free(imagePixels);
@@ -80,6 +81,7 @@ typedef union {
                                                       (CGBitmapInfo)kCGImageAlphaPremultipliedLast);
 
   NSAssert(!(!referenceImageContext || !imageContext), @"Must able to create contexts");
+  [[NSException exceptionWithName:@"CompareImage" reason:@"Must able to create contexts" userInfo:nil] raise];
     if (!referenceImageContext || !imageContext) {
         CGContextRelease(referenceImageContext);
         CGContextRelease(imageContext);
