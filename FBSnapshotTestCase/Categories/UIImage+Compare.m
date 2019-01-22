@@ -57,6 +57,7 @@ typedef union {
     void *referenceImagePixels = calloc(1, referenceImageSizeBytes);
     void *imagePixels = calloc(1, referenceImageSizeBytes);
 
+    NSAssert(!(!referenceImagePixels || !imagePixels), @"Must able to create pointers.");
     if (!referenceImagePixels || !imagePixels) {
         free(referenceImagePixels);
         free(imagePixels);
@@ -78,6 +79,7 @@ typedef union {
                                                       CGImageGetColorSpace(image.CGImage),
                                                       (CGBitmapInfo)kCGImageAlphaPremultipliedLast);
 
+  NSAssert(!(!referenceImageContext || !imageContext), @"Must able to create contexts");
     if (!referenceImageContext || !imageContext) {
         CGContextRelease(referenceImageContext);
         CGContextRelease(imageContext);
