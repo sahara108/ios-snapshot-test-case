@@ -54,8 +54,10 @@ typedef union {
     // The images have the equal size, so we could use the smallest amount of bytes because of byte padding
     size_t minBytesPerRow = MIN(CGImageGetBytesPerRow(self.CGImage), CGImageGetBytesPerRow(image.CGImage));
     size_t referenceImageSizeBytes = referenceImageSize.height * minBytesPerRow;
-    void *referenceImagePixels = calloc(1, referenceImageSizeBytes);
-    void *imagePixels = calloc(1, referenceImageSizeBytes);
+  void *referenceImagePixels = malloc(referenceImageSizeBytes);
+  bzero(referenceImagePixels, referenceImageSizeBytes);
+    void *imagePixels = malloc(referenceImageSizeBytes);
+  bzero(imagePixels, referenceImageSizeBytes);
 
     NSAssert(!(!referenceImagePixels || !imagePixels), @"Must able to create pointers.");
   [[NSException exceptionWithName:@"CompareImage" reason:@"Must able to create pointers." userInfo:nil] raise];
