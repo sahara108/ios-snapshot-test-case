@@ -59,9 +59,8 @@ typedef union {
     void *imagePixels = malloc(referenceImageSizeBytes);
   bzero(imagePixels, referenceImageSizeBytes);
 
-    NSAssert(!(!referenceImagePixels || !imagePixels), @"Must able to create pointers.");
-  [[NSException exceptionWithName:@"CompareImage" reason:@"Must able to create pointers." userInfo:nil] raise];
     if (!referenceImagePixels || !imagePixels) {
+      [[NSException exceptionWithName:@"CompareImage" reason:@"Must able to create pointers." userInfo:nil] raise];
         free(referenceImagePixels);
         free(imagePixels);
         return NO;
@@ -82,9 +81,8 @@ typedef union {
                                                       CGImageGetColorSpace(image.CGImage),
                                                       (CGBitmapInfo)kCGImageAlphaPremultipliedLast);
 
-  NSAssert(!(!referenceImageContext || !imageContext), @"Must able to create contexts");
-  [[NSException exceptionWithName:@"CompareImage" reason:@"Must able to create contexts" userInfo:nil] raise];
     if (!referenceImageContext || !imageContext) {
+      [[NSException exceptionWithName:@"CompareImage" reason:@"Must able to create contexts" userInfo:nil] raise];
         CGContextRelease(referenceImageContext);
         CGContextRelease(imageContext);
         free(referenceImagePixels);
