@@ -101,7 +101,9 @@ typedef union {
     FBComparePixel *p2 = imagePixels;
 
     // Do a fast compare if we can
-    if (overallTolerance == 0 && perPixelTolerance == 0) {
+  CGFloat testPerPixelTolerance = 0.5;
+  CGFloat testOverallTolerance = 1;
+    if (testOverallTolerance == 0 && testPerPixelTolerance == 0) {
       int diff = memcmp(referenceImagePixels, imagePixels, referenceImageSizeBytes);
       if (diff == 0) {
         imageEqual = true;
@@ -112,8 +114,8 @@ typedef union {
     } else {
         const NSUInteger pixelCount = referenceImageSize.width * referenceImageSize.height;
         // Go through each pixel in turn and see if it is different
-        imageEqual = [self _compareAllPixelsWithPerPixelTolerance:perPixelTolerance
-                                                 overallTolerance:overallTolerance
+        imageEqual = [self _compareAllPixelsWithPerPixelTolerance:testPerPixelTolerance
+                                                 overallTolerance:testOverallTolerance
                                                        pixelCount:pixelCount
                                                   referencePixels:p1
                                                       imagePixels:p2];
@@ -177,6 +179,7 @@ typedef union {
 
             CGFloat percent = (CGFloat)numDiffPixels / (CGFloat)pixelCount;
             if (percent > overallTolerance) {
+              [[NSException exceptionWithName:@"CompareImage" reason:[NSString stringWithFormat:@"Image different %f", percent] userInfo:nil] raise];
                 return NO;
             }
         }
