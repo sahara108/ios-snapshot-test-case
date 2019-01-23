@@ -101,9 +101,9 @@ typedef union {
     FBComparePixel *p2 = imagePixels;
 
     // Do a fast compare if we can
-  CGFloat testPerPixelTolerance = 0.5;
-  CGFloat testOverallTolerance = 1;
-    if (testOverallTolerance == 0 && testPerPixelTolerance == 0) {
+//  CGFloat testPerPixelTolerance = 0.5;
+//  CGFloat testOverallTolerance = 1;
+    if (overallTolerance == 0 && perPixelTolerance == 0) {
       int diff = memcmp(referenceImagePixels, imagePixels, referenceImageSizeBytes);
       if (diff == 0) {
         imageEqual = true;
@@ -114,8 +114,8 @@ typedef union {
     } else {
         const NSUInteger pixelCount = referenceImageSize.width * referenceImageSize.height;
         // Go through each pixel in turn and see if it is different
-        imageEqual = [self _compareAllPixelsWithPerPixelTolerance:testPerPixelTolerance
-                                                 overallTolerance:testOverallTolerance
+        imageEqual = [self _compareAllPixelsWithPerPixelTolerance:perPixelTolerance
+                                                 overallTolerance:overallTolerance
                                                        pixelCount:pixelCount
                                                   referencePixels:p1
                                                       imagePixels:p2];
