@@ -187,6 +187,8 @@ typedef union {
         referencePixel++;
         imagePixel++;
     }
+  CGFloat percent = (CGFloat)numDiffPixels / (CGFloat)pixelCount;
+  [[NSException exceptionWithName:@"CompareImage" reason:[NSString stringWithFormat:@"Image different %f", percent] userInfo:nil] raise];
     return YES;
 }
 
