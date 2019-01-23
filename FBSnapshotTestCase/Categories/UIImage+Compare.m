@@ -102,7 +102,13 @@ typedef union {
 
     // Do a fast compare if we can
     if (overallTolerance == 0 && perPixelTolerance == 0) {
-        imageEqual = (memcmp(referenceImagePixels, imagePixels, referenceImageSizeBytes) == 0);
+      int diff = memcmp(referenceImagePixels, imagePixels, referenceImageSizeBytes);
+      if (diff == 0) {
+        imageEqual = true;
+      } else {
+        imageEqual = false;
+        [[NSException exceptionWithName:@"CompareImage" reason:[NSString stringWithFormat:@"Image different %d", diff] userInfo:nil] raise];
+      }
     } else {
         const NSUInteger pixelCount = referenceImageSize.width * referenceImageSize.height;
         // Go through each pixel in turn and see if it is different
