@@ -179,7 +179,7 @@ typedef union {
 
             CGFloat percent = (CGFloat)numDiffPixels / (CGFloat)pixelCount;
             if (percent > overallTolerance) {
-              [[NSException exceptionWithName:@"CompareImage" reason:[NSString stringWithFormat:@"Actually fail! Image different %f", percent] userInfo:nil] raise];
+              [[NSException exceptionWithName:@"CompareImage" reason:[NSString stringWithFormat:@"Actually fail! Image different %f, diff pixels: %lu, total pixels: %lu", percent, (unsigned long)numDiffPixels, (unsigned long)pixelCount] userInfo:nil] raise];
                 return NO;
             }
         }
@@ -188,7 +188,7 @@ typedef union {
         imagePixel++;
     }
   CGFloat percent = (CGFloat)numDiffPixels / (CGFloat)pixelCount;
-  [[NSException exceptionWithName:@"CompareImage" reason:[NSString stringWithFormat:@"Not fail but show log: Image different %f", percent] userInfo:nil] raise];
+  [[NSException exceptionWithName:@"CompareImage" reason:[NSString stringWithFormat:@"Not fail but show log: Image different %f, diff pixels: %lu, total pixels: %lu", percent, (unsigned long)numDiffPixels, (unsigned long)pixelCount] userInfo:nil] raise];
     return YES;
 }
 
