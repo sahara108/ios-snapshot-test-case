@@ -54,10 +54,8 @@ typedef union {
     // The images have the equal size, so we could use the smallest amount of bytes because of byte padding
     size_t minBytesPerRow = MIN(CGImageGetBytesPerRow(self.CGImage), CGImageGetBytesPerRow(image.CGImage));
     size_t referenceImageSizeBytes = referenceImageSize.height * minBytesPerRow;
-  void *referenceImagePixels = malloc(referenceImageSizeBytes);
-  bzero(referenceImagePixels, referenceImageSizeBytes);
-    void *imagePixels = malloc(referenceImageSizeBytes);
-  bzero(imagePixels, referenceImageSizeBytes);
+  void *referenceImagePixels = calloc(1, referenceImageSizeBytes);
+  void *imagePixels = calloc(1, referenceImageSizeBytes);
 
     if (!referenceImagePixels || !imagePixels) {
       [[NSException exceptionWithName:@"CompareImage" reason:@"Must able to create pointers." userInfo:nil] raise];
@@ -101,8 +99,8 @@ typedef union {
     FBComparePixel *p2 = imagePixels;
 
     // Do a fast compare if we can
-  CGFloat testPerPixelTolerance = 0.5;
-  CGFloat testOverallTolerance = 1;
+  CGFloat testPerPixelTolerance = 0;
+  CGFloat testOverallTolerance = 0;
     if (testOverallTolerance == 0 && testPerPixelTolerance == 0) {
       int diff = memcmp(referenceImagePixels, imagePixels, referenceImageSizeBytes);
       if (diff == 0) {
