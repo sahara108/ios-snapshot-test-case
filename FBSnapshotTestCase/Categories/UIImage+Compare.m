@@ -99,8 +99,8 @@ typedef union {
     FBComparePixel *p2 = imagePixels;
 
     // Do a fast compare if we can
-  CGFloat testPerPixelTolerance = 0;
-  CGFloat testOverallTolerance = 0;
+  CGFloat testPerPixelTolerance = 0.01;
+  CGFloat testOverallTolerance = 0.01;
     if (testOverallTolerance == 0 && testPerPixelTolerance == 0) {
       int diff = memcmp(referenceImagePixels, imagePixels, referenceImageSizeBytes);
       if (diff == 0) {
